@@ -1,9 +1,5 @@
 pipeline {
     agent any
-    tools {
-   Docker 'Docker'
-}
-    
     environment {
         DOCKER_IMAGE_NAME = 'my-jenkins-image'
         DOCKER_CONTAINER_NAME = 'my-jenkins-container'
@@ -21,10 +17,9 @@ pipeline {
         stage('Run Docker Container') {
             steps {
                 script {
-                    docker.run("-d --name ${DOCKER_CONTAINER_NAME} ${DOCKER_IMAGE_NAME}:${env.BUILD_NUMBER}")
+                    docker.image("${DOCKER_IMAGE_NAME}:${env.BUILD_NUMBER}").run("-d --name ${DOCKER_CONTAINER_NAME}")
                 }
             }
         }
     }
-    
 }
